@@ -38,10 +38,10 @@ app.delete("/users/:id", userController.deleteUsers)
 app.get("/posts", postController.getPosts);
 
 // cria um novo post
-app.post("/posts", postController.postPost);
+app.post("/posts", postController.createPost);
 
 // edita um post
-app.put("/posts/:id", postController.putPost);
+app.put("/posts/:id", postController.editPost);
 
 // deleta um post através o id
 app.delete("/posts/:id", postController.deletePost);
