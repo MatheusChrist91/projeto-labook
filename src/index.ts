@@ -1,47 +1,22 @@
+import { postRouter } from './router/postRouter';
 import express, { Request, Response } from "express";
 import cors from "cors";
-import { TUserDB, TPostDB, TLikeDislikeDB } from "./types";
-import { User } from "./models/Users";
-import { UserDatabase } from "./database/UserDatabase";
-import { UserController } from "./controller/UserController";
-import { PostController } from "./controller/PostController";
+import { userRouter } from "./router/userRouter";
+
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-app.listen(3003, () => {
-  console.log(`Servidor rodando na porta ${3003}`);
+const PORT = 3003; 
+
+app.listen(Number(process.env.PORT || 3003), () => {
+  console.log(`Servidor rodando na porta ${process.env.PORT}`);
 });
 
-const userController = new UserController();
-const postController = new PostController();
+app.use("/users", userRouter);
 
-// CRUD DE USER
-// seleciona todos os usuários
-app.get("/users", userController.getUsers);
-
-// cria novo usuário
-app.post("/users", userController.createUser)
-
-// edita um usuário pelo, usando o id
-app.put("/users/:id", userController.editUsers)
-
-// deleta um usuário através do id
-app.delete("/users/:id", userController.deleteUsers)
-
-// FIM DO CRUD DE USERS
-
-// CRUD DE POST
-// seleciona todos os posts
-app.get("/posts", postController.getPosts);
-
-// cria um novo post
-app.post("/posts", postController.createPost);
-
-// edita um post
-app.put("/posts/:id", postController.editPost);
-
-// deleta um post através o id
-app.delete("/posts/:id", postController.deletePost);
+app.use("/posts", postRouter);

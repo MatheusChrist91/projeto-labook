@@ -1,52 +1,26 @@
-import { TUserDB } from "../types";
+import { UserDB } from "../models/users"; 
 import { BaseDatabase } from "./BaseDatabase";
 
 export class UserDatabase extends BaseDatabase {
-  public static TABLE_USERS = "users";
+  public static TABLE_USERS = "users"
 
-  public async findUsers(q: string | undefined): Promise<TUserDB[]> {
-    let usersDB;
-
-    if (q) {
-      const result: TUserDB[] = await BaseDatabase.connection(
-        UserDatabase.TABLE_USERS
-      ).where("name", "LIKE", `%${q}%`);
-
-      usersDB = result;
-    } else {
-      const result: TUserDB[] = await BaseDatabase.connection(
-        UserDatabase.TABLE_USERS
-      );
-
-      usersDB = result;
-    }
-
-    return usersDB;
+  public insertUser = async (
+    userDB: UserDB
+  ): Promise<void> => {
+    await BaseDatabase
+      .connection(UserDatabase.TABLE_USERS)
+      .insert(userDB)
   }
 
-  public async findUserById(id: string) {
-    const [userDB]: TUserDB[] | undefined[] = await BaseDatabase.connection(
-      UserDatabase.TABLE_USERS
-    ).where({ id });
-    return userDB;
-  }
+  public findUserByEmail = async (
+    email: string
+  ): Promise<UserDB | undefined> => {
+    
+    const [userDB] = await BaseDatabase
+      .connection(UserDatabase.TABLE_USERS)
+      .select()
+      .where({ email })
 
-  public async createUser(newUser: TUserDB): Promise<void> {
-    await BaseDatabase.connection(UserDatabase.TABLE_USERS).insert(newUser);
-  }
-
-  public async updateUser(user: TUserDB): Promise<void> {
-    await BaseDatabase.connection(UserDatabase.TABLE_USERS)
-      .where({ id: user.id })
-      .update({
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        role: user.role,
-      });
-  }
-
-  public async deleteUser(id: string): Promise<void> {
-    await BaseDatabase.connection(UserDatabase.TABLE_USERS).where({ id }).del();
+    return userDB as UserDB | undefined
   }
 }

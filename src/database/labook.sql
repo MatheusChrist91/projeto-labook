@@ -1,4 +1,4 @@
--- Active: 1698447626427@@127.0.0.1@3306
+-- Active: 1701389067645@@127.0.0.1@3306
 PRAGMA date_class = 'datetime';
 
 -- CRIA A TABELA USERS --
@@ -68,6 +68,3 @@ INSERT INTO likes_dislikes (user_id, post_id, like) VALUES
     ('u03', 'p02', -1),
     ('u04', 'p03', 1),
     ('u05', 'p04', -1);
-
-
-
