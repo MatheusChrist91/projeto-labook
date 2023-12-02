@@ -46,7 +46,7 @@ export class UserBusiness {
     const token = this.tokenManager.createToken(payload)
 
     const output: SignupOutputDTO = {
-      message: "Cadastrado realizado com sucesso",
+      message: "seu cadastrado foi realizado com sucesso!",
       token
     }
 
@@ -61,7 +61,7 @@ export class UserBusiness {
     const userDB = await this.userDatabase.findUserByEmail(email)
 
     if (!userDB) {
-      throw new BadRequestError("e-mail e/ou senha inválido(s)")
+      throw new BadRequestError("e-mail e/ou senha incorreto(s)!")
     }
 
     const user = new User(
@@ -91,7 +91,7 @@ export class UserBusiness {
     const token = this.tokenManager.createToken(payload)
 
     const output: LoginOutputDTO = {
-      message: "Login realizado com sucesso",
+      message: "Seu login foi realizado com sucesso!",
       token
       
     }
