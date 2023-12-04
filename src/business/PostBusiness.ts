@@ -37,7 +37,7 @@ export class PostBusiness {
     const id = this.idGenerator.generate();
 
     if (content === undefined) {
-      throw new BadRequestError("Content is required");
+      throw new BadRequestError("É necessário um conteúdo!");
     }
 
     const post = new Post(
@@ -106,11 +106,11 @@ export class PostBusiness {
     const postDB = await this.postDatabase.findPostById(idToEdit);
 
     if (!postDB) {
-      throw new NotFoundError("post com essa id não existe");
+      throw new NotFoundError("Não existe um post com esta 'id'!");
     }
 
     if (payload.id !== postDB.creator_id) {
-      throw new ForbiddenError("somente quem criou a post pode editá-la");
+      throw new ForbiddenError("Apenas o usuário que criou o post pode fazer a edição!");
     }
 
     const post = new Post(
@@ -148,12 +148,12 @@ export class PostBusiness {
     const postDB = await this.postDatabase.findPostById(idToDelete);
 
     if (!postDB) {
-      throw new NotFoundError("post com essa id não existe");
+      throw new NotFoundError("Não existe post com esta 'id'!");
     }
 
     if (payload.role !== USER_ROLES.ADMIN) {
       if (payload.id !== postDB.creator_id) {
-        throw new ForbiddenError("somente quem criou a post pode editá-la");
+        throw new ForbiddenError("Apenas o usuário que criou o post pode fazer a edição!");
       }
     }
 
@@ -180,7 +180,7 @@ export class PostBusiness {
     );
 
     if (!postCreatorName) {
-      throw new NotFoundError("Post com esse ID não existe");
+      throw new NotFoundError("Não existe post com esta 'id'!");
     }
 
     const post = new Post(
